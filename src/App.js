@@ -3,30 +3,46 @@ import logo from './logo.svg';
 import './App.css';
 
 class App extends Component {
+  constructor(props){
+  	super(props);
+  	this.state = {
+      text: 'Start Typing'
+    };
+    this.changeText = this.changeText.bind(this);
+  }
+
+  changeText(text) {
+    this.setState({text});
+  }
+
   render() {
     return (
       <div className="App">
-        <Greet name = 'React Props' />
+          <Child
+            text={this.state.text}
+            changeText={this.changeText.bind(this)}/>
       </div>
     );
   }
 }
 
-class Greet extends React.Component{
+class Child extends React.Component{
+
+handleTextChange(e) {
+  const event = e.target.value;
+  this.props.changeText(event);
+}
+
   render() {
     return(
-      // Class Components requires this keyword on props(Due to instances of components when being created)
-      <h1>Greetings {this.props.name}</h1>
+      <div>
+        <input
+          type='text'
+           onChange={this.handleTextChange.bind(this)}/>
+        <p>{this.props.text}</p>
+      </div>
     )
   }
 }
-
-/*Functional Components takes in props as an argument*/
-// const Greet = (props) => {
-//   return(
-//using es6 fat arrow to bind 'this' keyword so no need to include before '{props.name}' like in a class based component
-//     <h1>Greetings {props.name}</h1>
-//   )
-// }
 
 export default App;
